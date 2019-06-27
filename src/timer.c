@@ -3,7 +3,7 @@
 #include "key.h"
 #include "display.h"
 
-uint8_t keytest;
+volatile uint8_t keytest;
 
 void timer1Init(void)
 {
@@ -45,7 +45,7 @@ void timerInit(void)
 	return;
 }
 
-void timer0_isr(void) interrupt 1
+void timer0_isr(void) __interrupt 1 __using 1
 {
 	displayRefresh();
 	keytest++;
@@ -57,7 +57,7 @@ void timer0_isr(void) interrupt 1
 	return;
 }
 
-void timer1_isr(void) interrupt 3
+void timer1_isr(void) __interrupt 3
 {
 
 	return;

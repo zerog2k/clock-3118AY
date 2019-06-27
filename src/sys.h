@@ -1,20 +1,15 @@
 #ifndef _SYS_H_
 #define _SYS_H_
 
-#include "STC15.H"
+#include "stc15.h"
+#include <stdint.h>
 
 #define SYSCLK_18 18432
 #define SYSCLK_11 11059
 #define SYSCLK_06 6000
 #define SYSCLK SYSCLK_06
 
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned long uint32_t;
-
-typedef signed char int8_t;
-typedef short int16_t;
-typedef long int32_t;
+#define _nop_() __asm nop __endasm
 
 #define ELEMENTS(a) sizeof(a) / sizeof(a[0])
 	

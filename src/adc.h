@@ -3,13 +3,13 @@
 
 #include "sys.h"
 
-#define ADC_POWER   0x80         //бит управления питанием ADC
-#define ADC_FLAG    0x10         //бит завершения преобразования ADC
-#define ADC_START   0x08         //бит управления запуском ADC
-#define ADC_SPEEDLL 0x00         //540 тактов
-#define ADC_SPEEDL  0x20         //360 тактов
-#define ADC_SPEEDH  0x40         //180 тактов
-#define ADC_SPEEDHH 0x60         //90 тактов
+#define ADC_POWER   0x80         //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ADC
+#define ADC_FLAG    0x10         //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ADC
+#define ADC_START   0x08         //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ADC
+#define ADC_SPEEDLL 0x00         //540 пїЅпїЅпїЅпїЅпїЅпїЅ
+#define ADC_SPEEDL  0x20         //360 пїЅпїЅпїЅпїЅпїЅпїЅ
+#define ADC_SPEEDH  0x40         //180 пїЅпїЅпїЅпїЅпїЅпїЅ
+#define ADC_SPEEDHH 0x60         //90 пїЅпїЅпїЅпїЅпїЅпїЅ
 
 typedef struct {
 	int16_t	RawT;
@@ -18,7 +18,7 @@ typedef struct {
 	int8_t	bright;
 } Adc_type;
 
-extern Adc_type adc;
+__pdata extern Adc_type adc;
 
 #define ALARM_NOEDIT			0xFF
 

@@ -50,8 +50,8 @@ typedef struct {
 } EEP_Param;
 
 extern EEP_Param eep;
-extern code EEP_Param eepMin;
-extern code EEP_Param eepMax;
+const extern EEP_Param eepMin;
+const extern EEP_Param eepMax;
 
 void settingsInit(void);
 void settingsSave(void);

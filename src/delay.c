@@ -1,6 +1,5 @@
 #include "delay.h"
 #include "sys.h"
-#include "intrins.h"
 
 void delay_1us(void)
 {

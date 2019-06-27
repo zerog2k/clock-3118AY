@@ -18,20 +18,20 @@ enum {
 };
 
 typedef struct {
-	int8_t on;
-	int8_t hour;
-	int8_t min;
-	int8_t mon;
-	int8_t tue;
-	int8_t wed;
-	int8_t thu;
-	int8_t fri;
-	int8_t sat;
-	int8_t sun;
-	int8_t etm;
+	uint8_t on;
+	uint8_t hour;
+	uint8_t min;
+	uint8_t mon;
+	uint8_t tue;
+	uint8_t wed;
+	uint8_t thu;
+	uint8_t fri;
+	uint8_t sat;
+	uint8_t sun;
+	uint8_t etm;
 } Alarm_type;
 
-extern Alarm_type alarm;
+__pdata extern Alarm_type alarm;
 
 #define ALARM_NOEDIT			0xFF
 

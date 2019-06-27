@@ -8,26 +8,26 @@
 #include "fonts.h"
 #include "weekpicture.h"
 #include "menupicture.h"
-#include "holidays.h"
+//#include "holidays.h"
 #include "settings.h"
 /*#include "bmxx80.h"
 #include "si7021.h"
 */
-uint8_t data disp[DISPLAYSIZE];
+__data uint8_t disp[DISPLAYSIZE];
 uint8_t render_buffer_size = 0;
 int16_t scroll_index = -1;
-uint8_t xdata render_buffer[RENDSERBUFFERSIZE];
+__xdata uint8_t render_buffer[RENDSERBUFFERSIZE];
 uint8_t *pdisp;
-uint8_t code *fptr;
+__code uint8_t *fptr;
 uint8_t displayBright = 6;
 uint8_t dispMode = MODE_MAIN;
-uint8_t code hourbright[12] = { 0x00, 0x00, 0x12, 0x34, 0x55, 0x55, 0x55, 0x55, 0x55, 0x54, 0x32, 0x10 };
+__code uint8_t hourbright[12] = { 0x00, 0x00, 0x12, 0x34, 0x55, 0x55, 0x55, 0x55, 0x55, 0x54, 0x32, 0x10 };
 
 uint8_t menuNumber = MODE_EDIT_TIME;
 uint8_t screenTime = 0;
 uint8_t widgetNumber = 0;
-bit reversed;
-bit refstart;
+__bit reversed;
+__bit refstart;
 uint8_t refcount;
 uint8_t dotcount;
 
@@ -35,7 +35,7 @@ void wiNext(void);
 void wiTime(void);
 void wiHoly(void);
 
-Widget code widgets[7] = {
+const Widget widgets[7] = {
 	{5, wiTime}, /* WI_TIME */
 	{2, wiNext}, /* WI_DATE */ 
 	{2, wiNext}, /* WI_WEEK */ 
@@ -47,7 +47,8 @@ Widget code widgets[7] = {
 
 void displayInit(void)
 {
-	uint8_t i, code *sptr;;
+	uint8_t i;
+	__code uint8_t *sptr;;
 	P0M1 = 0x00;
 	P0M0 = 0xFF;
 	P1M1 = 0x00;
@@ -62,7 +63,7 @@ void displayInit(void)
 	refstart = 0;
 	updateFont();
 	//pdisp = &render_buffer[0];
-	// копируем 'заставку'
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ'
 	pdisp = &disp[0];
 	sptr = &pic_heart[0];
 	for(i=0; i<DISPLAYSIZE; i++, sptr++, pdisp++) {
@@ -154,7 +155,7 @@ void displayRefresh(void)
 
 void checkAlarm(void)
 {
-	static bit firstCheck = 1;
+	static __bit firstCheck = 1;
 
 	rtcReadTime();
 
@@ -261,7 +262,8 @@ void showDot(void)
 
 void showNumber(uint8_t num, uint8_t clean, uint8_t dig )
 {
-	uint8_t i, code *sptr;
+	uint8_t i;
+	__code uint8_t *sptr;
 
 	for(i=0; i<4; i++, pdisp++) {
 			if(!clean&&(!dig ||((num/10) > 0 ))) {
@@ -313,7 +315,8 @@ void showDate(void)
 
 void showDayWeek(void)
 {
-	uint8_t i, code *sptr;
+	uint8_t i;
+	__code uint8_t *sptr;
 
 	switch(rtc.wday) {
 		case 1: sptr = &pic_mon[0];break;
@@ -414,7 +417,7 @@ void checkParam(int8_t *param, int8_t diff, int8_t paramMin, int8_t paramMax)
 	return;
 }
 
-void changeMenu(int8_t diff)
+void changeMenu(uint8_t diff)
 {
 	checkParam(&menuNumber, diff, MODE_EDIT_TIME, MODE_EDIT_TEMP_COEF);
 
@@ -423,7 +426,8 @@ void changeMenu(int8_t diff)
 
 void showMenu(void)
 {
-	uint8_t i, code *sptr;
+	uint8_t i;
+	__code uint8_t *sptr;
 
 	switch(menuNumber) {
 		case MODE_EDIT_TIME: sptr = &pic_Time[0];break;
@@ -447,7 +451,7 @@ void showMenu(void)
 void showTimeEdit(void)
 {
 	uint8_t i;
-	bit flash;
+	__bit flash;
 
 	pdisp = &disp[0];
 	updateFont();
@@ -479,7 +483,7 @@ void showTimeEdit(void)
 void showDateEdit(void)
 {
 	uint8_t i;
-	bit flash;
+	__bit flash;
 
 	pdisp = &disp[0];
 	updateFont();
@@ -509,8 +513,9 @@ void showDateEdit(void)
 
 void showAlarmEdit(void)
 {
-	uint8_t i, j, code *sptr;
-	bit flash;
+	uint8_t i, j;
+	const uint8_t *sptr;
+	__bit flash;
 
 	pdisp = &disp[0];
 	updateFont();
@@ -693,7 +698,8 @@ void changeHourSignal(int8_t diff)
 
 void showHourSignalEdit(void)
 {
-	uint8_t i, code *sptr;
+	uint8_t i;
+	__code uint8_t *sptr;
 
 	if(eep.hourSignal) {
 		sptr = &pic_On[0];
@@ -739,7 +745,8 @@ void wiNext(void)
 			widgetNumber = WI_HOLY;
 		}*/
 		if(widgetNumber == WI_HOLY) {
-			if(holiday) {
+			//if(holiday) {
+			if(0) {
 				scroll_index = 0;
 			}
 			else {

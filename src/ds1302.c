@@ -3,12 +3,12 @@
 #include "ds1302.h"
 #include "delay.h"
 
-RTC_type rtc;
+__xdata RTC_type rtc;
 
-static code RTC_type rtcMin = {0, 0, 0, 1, 1, 1, 0, RTC_NOEDIT};
-static code RTC_type rtcMax = {59, 59, 23, 31, 12, 7, 99, RTC_NOEDIT};
+__code static RTC_type rtcMin = {0, 0, 0, 1, 1, 1, 0, RTC_NOEDIT};
+__code static RTC_type rtcMax = {59, 59, 23, 31, 12, 7, 99, RTC_NOEDIT};
 
-static code uint16_t rtcMonthNumberDay[12] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
+__code static uint16_t rtcMonthNumberDay[12] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
 
 static void rtcWeekDay(void)
 {
@@ -100,7 +100,7 @@ uint8_t ds1302ReadReg(uint8_t reg)
     return result;
 }
 
-void ds1302SetProtect(bit flag)
+void ds1302SetProtect(__bit flag)
 {
 	if(flag)
 		ds1302WriteReg(0x8E,0x10);
@@ -189,7 +189,7 @@ void rtcReadTime(void)
 	return;
 }
 
-void rtcChangeTime(int8_t diff)
+void rtcChangeTime(uint8_t diff)
 {
 	int8_t *time = (int8_t*)&rtc + rtc.etm;
 	int8_t timeMax = *((int8_t*)&rtcMax + rtc.etm);

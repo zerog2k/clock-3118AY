@@ -1,7 +1,6 @@
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
-#include<intrins.h>
 #include "sys.h"
 
 #define PARAM_UP				1
@@ -45,7 +44,7 @@ typedef __wi_func *__ptr_wi_func;
 
 typedef struct {
 	uint8_t sec;
-	__wi_func code *func;
+	__code __wi_func *func;
 } Widget;
 
 #define DISPLAYSIZE 24
@@ -55,19 +54,19 @@ typedef struct {
 
 
 extern uint8_t dispMode;
-extern uint8_t data disp[DISPLAYSIZE];
-extern uint8_t xdata render_buffer[RENDSERBUFFERSIZE];
+__data extern uint8_t disp[DISPLAYSIZE];
+__xdata extern uint8_t render_buffer[RENDSERBUFFERSIZE];
 extern uint8_t displayBright;
 extern uint8_t render_buffer_size;
 extern int16_t scroll_index;
 extern uint8_t menuNumber;
 extern uint8_t screenTime;
 extern uint8_t widgetNumber;
-extern bit refstart;
+extern __bit refstart;
 extern uint8_t refcount;
 extern uint8_t dotcount;
-extern bit reversed;
-extern Widget code widgets[7];
+extern __bit reversed;
+__code extern Widget widgets[7];
 
 void displayInit(void);
 void displayClear(void);

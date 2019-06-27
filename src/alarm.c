@@ -2,9 +2,9 @@
 #include "alarm.h"
 //#include "settings.h"
 
-Alarm_type alarm;
-static code Alarm_type alarmMin = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ALARM_NOEDIT};
-static code Alarm_type alarmMax = {1, 23, 59, 1, 1, 1, 1, 1, 1, 1, ALARM_NOEDIT};
+__pdata Alarm_type alarm;
+const Alarm_type alarmMin = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ALARM_NOEDIT};
+const Alarm_type alarmMax = {1, 23, 59, 1, 1, 1, 1, 1, 1, 1, ALARM_NOEDIT};
 
 void alarmInit(void)
 {

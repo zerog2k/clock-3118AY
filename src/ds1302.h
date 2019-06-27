@@ -4,8 +4,8 @@
 #include "sys.h"
 
 #define AM(X)	X
-#define PM(X)	(X+12)            	  // 转成24小时制
-#define DS1302_RAM(X)	(0xC0+(X)*2)   	//用于计算 DS1302_RAM 地址的宏 
+#define PM(X)	(X+12)            	  // 转锟斤拷24小时锟斤拷
+#define DS1302_RAM(X)	(0xC0+(X)*2)   	//锟斤拷锟节硷拷锟斤拷 DS1302_RAM 锟斤拷址锟侥猴拷 
 
 enum {
 	DS1302_SECOND				= 0x80,
@@ -41,7 +41,7 @@ typedef struct {
 	uint8_t etm;
 } RTC_type;
 
-extern RTC_type rtc;
+__xdata extern RTC_type rtc;
 
 #define RTC_NOEDIT			0xFF
 

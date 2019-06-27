@@ -1,3 +1,5 @@
+#pragma std_sdcc99
+
 #include "sys.h"
 #include "pinout.h"
 #include "timer.h"
@@ -8,7 +10,7 @@
 #include "alarm.h"
 #include "delay.h"
 #include "settings.h"
-#include "holidays.h"
+//#include "holidays.h"
 #include "adc.h"
 
 
@@ -76,7 +78,7 @@ void main(void)
 				adcConvert();
 			}
 			checkAlarm();
-			checkHolidays();
+			//checkHolidays();
 		}
 
 		cmd = getBtnCmd();
@@ -223,9 +225,11 @@ void main(void)
 
 		dotcount++;
 		refcount++;
+		/*
 		if( holiday&&(widgetNumber == WI_HOLY) && (refcount % 5) == 0 ) {
 			if(scroll_index >=0) scroll_index++;
 		}
+		*/
 		if( dotcount > 59 ) dotcount = 0;
 		if( refcount > 59 ) {
 			refcount = 0;
