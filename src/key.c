@@ -2,9 +2,9 @@
 #include "sys.h"
 #include "key.h"
 
-uint8_t sensTimer = 0;
-uint8_t scrollTimer = 0;
-uint16_t alarmTimer = 0;
+volatile uint8_t sensTimer = 0;
+volatile uint8_t scrollTimer = 0;
+volatile uint16_t alarmTimer = 0;
 static volatile uint8_t beepTimer = 0;
 static volatile uint8_t secTimer = TIME_SEC;
 static volatile uint8_t cmdBuf = BTN_STATE_0;
@@ -67,8 +67,6 @@ void CheckBtn(void)
 	else {
 		beep=1;
 	}
-
-	return;
 }
 
 void startBeeper(uint8_t time)
@@ -76,8 +74,6 @@ void startBeeper(uint8_t time)
 	beepTimer = time;
 	secTimer = TIME_SEC;
 	alarmTimer = 0;
-
-	return;
 }
 
 uint8_t getBtnCmd(void)

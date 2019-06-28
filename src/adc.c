@@ -7,8 +7,6 @@ void adcInit(void)
 {
 	P1M0 |= 0xC0;
 	P1M1 |= 0xC0;
-
-	return;
 }
 
 uint16_t getADCResult(uint8_t chanel)

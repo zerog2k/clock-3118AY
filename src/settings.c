@@ -2,7 +2,7 @@
 #include "eeprom.h"
 #include "settings.h"
 
-EEP_Param eep;
+__pdata EEP_Param eep;
 const static EEP_Param eepDef = {0xFF, 0, 2, 0, 0, 1, 5, 0, 7, 30, 1, 1, 1, 1, 1, 0, 0, 0};
 
 const EEP_Param eepMin = {0xFF, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -9};

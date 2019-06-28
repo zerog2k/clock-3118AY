@@ -13,6 +13,12 @@
 
 #define ELEMENTS(a) sizeof(a) / sizeof(a[0])
 	
+// clear wdt
+#define WDT_CLEAR()    (WDT_CONTR |= 1 << 4)
+
+#define SET(reg, bit) reg |=  (1 << bit)  // Sets a bit in reg.
+#define CLR(reg, bit) reg &= ~(1 << bit)  // Clears a bit in reg.
+
 #endif /* _SYS_H_ */
 
 /*

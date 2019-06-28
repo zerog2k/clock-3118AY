@@ -44,7 +44,7 @@ typedef __wi_func *__ptr_wi_func;
 
 typedef struct {
 	uint8_t sec;
-	__code __wi_func *func;
+	const __wi_func *func;
 } Widget;
 
 #define DISPLAYSIZE 24
@@ -54,7 +54,7 @@ typedef struct {
 
 
 extern uint8_t dispMode;
-__data extern uint8_t disp[DISPLAYSIZE];
+__pdata extern uint8_t disp[DISPLAYSIZE];
 __xdata extern uint8_t render_buffer[RENDSERBUFFERSIZE];
 extern uint8_t displayBright;
 extern uint8_t render_buffer_size;
@@ -62,15 +62,15 @@ extern int16_t scroll_index;
 extern uint8_t menuNumber;
 extern uint8_t screenTime;
 extern uint8_t widgetNumber;
-extern __bit refstart;
-extern uint8_t refcount;
+volatile extern __bit refstart;
+volatile extern uint8_t refcount;
 extern uint8_t dotcount;
-extern __bit reversed;
+volatile extern __bit reversed;
 __code extern Widget widgets[7];
 
 void displayInit(void);
 void displayClear(void);
-void displayRefresh(void);
+void displayRefresh(void) __critical;
 void checkAlarm(void);
 void checkParam(int8_t *param, int8_t diff, int8_t paramMin, int8_t paramMax);
 void updateFont(void);

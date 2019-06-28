@@ -3,12 +3,12 @@
 #include "ds1302.h"
 #include "delay.h"
 
-__xdata RTC_type rtc;
+__pdata RTC_type rtc;
 
-__code static RTC_type rtcMin = {0, 0, 0, 1, 1, 1, 0, RTC_NOEDIT};
-__code static RTC_type rtcMax = {59, 59, 23, 31, 12, 7, 99, RTC_NOEDIT};
+const static RTC_type rtcMin = {0, 0, 0, 1, 1, 1, 0, RTC_NOEDIT};
+const static RTC_type rtcMax = {59, 59, 23, 31, 12, 7, 99, RTC_NOEDIT};
 
-__code static uint16_t rtcMonthNumberDay[12] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
+const static uint16_t rtcMonthNumberDay[12] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
 
 static void rtcWeekDay(void)
 {
@@ -43,33 +43,46 @@ uint8_t rtcDaysInMonth(void)
 	return ret;
 }
 
-void ds1302InputByte(uint8_t value)
+void writebyte(uint8_t b)
 { 
-	uint8_t i;
-
-	ACC = value;
-	for (i = 8; i > 0; i--) {
-		DS1302_IO = ACC0;
-		DS1302_SCLK = 1;
-		DS1302_SCLK = 0;
-		ACC = ACC >> 1; 
-	}
-
-	return;
+    b;
+  __asm
+    push	ar7
+    mov     a,dpl
+    mov	r7,#8
+00001$:
+    nop
+    nop
+    rrc     a
+    mov     _DS_IO,c
+    setb	_DS_SCLK
+    nop
+    nop
+    clr	_DS_SCLK
+    djnz	r7,00001$
+    pop	ar7
+  __endasm;
 }
 
-uint8_t ds1302OutputByte(void)
+uint8_t readbyte(void)
 { 
-	uint8_t i;
-
-	for (i = 8; i > 0; i--) {
-		ACC = ACC >>1;
-		ACC7 = DS1302_IO;
-		DS1302_SCLK = 1;
-		DS1302_SCLK = 0;
-	}
-
-	return ACC;
+  __asm
+	push	ar7
+	mov 	a,#0
+	mov 	r7,#8
+00002$:
+	nop
+	nop
+	mov	c,_DS_IO
+	rrc	a	
+	setb	_DS_SCLK
+	nop
+	nop
+	clr	_DS_SCLK
+	djnz	r7,00002$
+	mov	dpl,a
+	pop	ar7
+  __endasm;
 }
 
 void ds1302WriteReg(uint8_t reg, uint8_t value)
@@ -77,9 +90,9 @@ void ds1302WriteReg(uint8_t reg, uint8_t value)
 	DS1302_CE = 0;
 	DS1302_SCLK = 0;
 	DS1302_CE = 1;
-	ds1302InputByte(reg);
-	ds1302InputByte(value);
-	DS1302_SCLK = 1;
+	writebyte(reg);
+	writebyte(value);
+	//DS1302_SCLK = 1;
 	DS1302_CE = 0;
 
 	return;
@@ -92,9 +105,9 @@ uint8_t ds1302ReadReg(uint8_t reg)
     DS1302_CE = 0;
     DS1302_SCLK = 0;
     DS1302_CE = 1;
-    ds1302InputByte(reg|0x01);
-    result = ds1302OutputByte();
-    DS1302_SCLK = 1;
+    writebyte(reg|0x01);
+    result = readbyte();
+    //DS1302_SCLK = 1;
     DS1302_CE = 0;
 
     return result;
@@ -178,10 +191,10 @@ void rtcReadTime(void)
 	DS1302_CE = 0;
 	DS1302_SCLK = 0;
 	DS1302_CE = 1;
-	ds1302InputByte(DS1302_BURSTCLOCK|0x01);
+	writebyte(DS1302_BURSTCLOCK|0x01);
 
 	for (i = RTC_SEC; i <= RTC_YEAR; i++) {
-		*((uint8_t*)&rtc + i) = rtcBinDecToDec(ds1302OutputByte());
+		*((uint8_t*)&rtc + i) = rtcBinDecToDec(readbyte());
 	}
 	DS1302_SCLK = 1;
 	DS1302_CE = 0;

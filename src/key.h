@@ -19,9 +19,9 @@
 
 #define TIME_SEC				250
 
-extern uint8_t sensTimer;
+volatile extern uint8_t sensTimer;
 //extern uint8_t scrollTimer;
-extern uint16_t alarmTimer;
+volatile extern uint16_t alarmTimer;
 
 void startBeeper(uint8_t time);
 void CheckBtn(void);

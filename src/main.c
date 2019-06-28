@@ -13,24 +13,21 @@
 //#include "holidays.h"
 #include "adc.h"
 
+#include <stdio.h>
+#define printf printf_tiny     // see sdcc user guide
+#include "serial.h"
 
 void hwInit(void)
 {
 	settingsInit();
-
 	displayInit();
-
 	timerInit();
-	
 	adcInit();
-
 	rtcInit();
-
 	alarmInit();
-
+	uart1_init();
+	EA = 1; // enable interrupts
 	rtc.etm = RTC_NOEDIT;
-
-	return;
 }
 
 void cancelEdit(void)
@@ -42,7 +39,6 @@ void cancelEdit(void)
 	EA = 1;
 	dispMode = MODE_MAIN;
 
-	return;
 }
 
 void saveEdit(void)
@@ -54,31 +50,38 @@ void saveEdit(void)
 	EA = 1;
 	dispMode = MODE_MAIN;
 
-	return;
 }
 
 void main(void)
 {
 	uint8_t cmd;
 	uint8_t direction = PARAM_UP;
+	uint8_t z = 0;
+	beep = 0; delay_ms(1); beep = 1;
+	delay_ms(1);
+
 	hwInit();
+	printf("start1\n");
 	delay_ms(250);
+	//beep = 0; delay_ms(1); beep = 1;
+	//delay_ms(1);
+
 	startBeeper(BEEP_SHORT);
 
 	sensTimer = TEMP_MEASURE_TIME;
 
 	while(1) {
-		while(refstart == 0) {}
+		while (refstart == 0); // wait for first refresh
 		refstart = 0;
 
-		if(((refcount % 10) == 0) &&(dispMode == MODE_MAIN||!(dispMode == MODE_EDIT_TIME||dispMode == MODE_EDIT_DATE))) {
+		if (((refcount % 10) == 0) && (dispMode == MODE_MAIN || !(dispMode == MODE_EDIT_TIME || dispMode == MODE_EDIT_DATE))) {
 			if (sensTimer == 0) {
 				sensTimer = TEMP_MEASURE_TIME;
-
 				adcConvert();
 			}
 			checkAlarm();
 			//checkHolidays();
+		printf("adc.bright: %d\n", adc.bright);
 		}
 
 		cmd = getBtnCmd();
@@ -238,6 +241,5 @@ void main(void)
 		}
 	}
 
-	return;
 }
 

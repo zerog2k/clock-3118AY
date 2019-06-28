@@ -41,7 +41,7 @@ typedef struct {
 	uint8_t etm;
 } RTC_type;
 
-__xdata extern RTC_type rtc;
+__pdata extern RTC_type rtc;
 
 #define RTC_NOEDIT			0xFF
 

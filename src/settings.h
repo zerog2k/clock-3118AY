@@ -49,7 +49,7 @@ typedef struct {
 	int8_t tempcoef;
 } EEP_Param;
 
-extern EEP_Param eep;
+__pdata extern EEP_Param eep;
 const extern EEP_Param eepMin;
 const extern EEP_Param eepMax;
 
