@@ -55,7 +55,7 @@ void saveEdit(void)
 void main(void)
 {
 	uint8_t cmd;
-	uint8_t direction = PARAM_UP;
+	int8_t direction = PARAM_UP;
 	uint8_t z = 0;
 	beep = 0; delay_ms(1); beep = 1;
 	delay_ms(1);
@@ -63,15 +63,13 @@ void main(void)
 	hwInit();
 	printf("start1\n");
 	delay_ms(250);
-	//beep = 0; delay_ms(1); beep = 1;
-	//delay_ms(1);
 
 	startBeeper(BEEP_SHORT);
 
 	sensTimer = TEMP_MEASURE_TIME;
 
 	while(1) {
-		while (refstart == 0); // wait for first refresh
+		while (refstart == 0); // wait for refresh
 		refstart = 0;
 
 		if (((refcount % 10) == 0) && (dispMode == MODE_MAIN || !(dispMode == MODE_EDIT_TIME || dispMode == MODE_EDIT_DATE))) {
@@ -81,7 +79,7 @@ void main(void)
 			}
 			checkAlarm();
 			//checkHolidays();
-		printf("adc.bright: %d\n", adc.bright);
+		//printf("adc.bright: %d\n", adc.bright);
 		}
 
 		cmd = getBtnCmd();
@@ -239,6 +237,10 @@ void main(void)
 			screenTime++;
 			((__ptr_wi_func)widgets[widgetNumber].func)();
 		}
+		
+		// power save, idle mode ?
+		PCON |= 0x01;
+		_nop_();
 	}
 
 }

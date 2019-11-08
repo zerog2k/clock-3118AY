@@ -36,7 +36,8 @@ int putchar(int c)
 {
     SBUF = c;       // put byte in buf
     while (! TI);
-    TI = 0;    
+    TI = 0;
+    return 0;    
 }
 
 int getchar() {

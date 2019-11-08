@@ -13,9 +13,9 @@ volatile uint8_t keytest;
 
 void timer0Init(void)
 {
-	// 111us
-	AUXR |= 0x80;		// T0=1T
-	//TMOD &= 0xF0;
+
+	AUXR |= 0x80;		// T0: /1T
+
 #if (SYSCLK == SYSCLK_11)
 	// @11.059MHz
 	TL0 = 0x34;
@@ -26,10 +26,31 @@ void timer0Init(void)
  	TH0 = 0xF8;
 #else
 	// @6.000MHz
+	/*
+		For 1T:
+		(65536 - trv) = t * Fcpu
+		65536 - (Fcpu * t) = timer_reload_value
+ 	*/
+ 	// t = 0.000126
+	// TL0 = 0x66;
+	// TH0 = 0xFD;
+
+	// t = 0.000111
 	TL0 = 0x66;
 	TH0 = 0xFD;
+
+	/*  experimenting with other timer ticks
+	// t= 0.0002
+	TL0 = 0x50;
+	TH0 = 0xFB;
+
+	// t = 0.001
+	TL0 = 0x90;
+	TH0 = 0xE8;
+	*/
+
 #endif
-	TMOD = 0x00;
+	//TMOD = 0x000;
 	TF0 = 0;
 	TR0 = 1;
 	ET0 = 1;
@@ -42,13 +63,8 @@ void timerInit(void)
 	EA = 1;
 }
 
-void timer0_isr(void) __interrupt 1 
+void timer0_isr(void) __interrupt 1
 {
-	//P0_0 = !P0_0;
-
-	//TF1 = 0;
-	//return;
-	//refstart = 1;
 	displayRefresh();
 	keytest++;
 	if( keytest > 36 ) {
